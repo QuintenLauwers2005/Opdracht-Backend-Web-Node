@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juwelier API - Documentatie</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .endpoint {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-right: 10px;
+            color: white;
+        }
+
+        .get { background: #61affe; }
+        .post { background: #49cc90; }
+        .put { background: #fca130; }
+        .delete { background: #f93e3e; }
+
+        .url {
+            font-family: 'Courier New', monospace;
+            background: #2d2d2d;
+            color: #61affe;
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            display: block;
+            overflow-x: auto;
+        }
+
+        .params {
+            margin-top: 15px;
+        }
+
+        .param {
+            background: white;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .param strong {
+            color: #667eea;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .example {
+            background: #2d2d2d;
+            color: #a9b7c6;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+
+        .example pre {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>💎 Juwelier API</h1>
+    <p class="subtitle">API Documentatie - Versie 1.0</p>
+</header>
+
+<div class="section">
+    <h2>Overzicht</h2>
+    <p>Welkom bij de Juwelier API documentatie. Deze API biedt endpoints voor het beheren van producten en categorieën voor een juwelier webshop.</p>
+    <p><strong>Base URL:</strong> <code>http://localhost:3000/api</code></p>
+    <p><strong>Response Format:</strong> JSON</p>
+</div>
+
+<div class="section">
+    <h2>🛍️ Products Endpoints</h2>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Alle producten ophalen</strong>
+        </div>
+        <code class="url">GET /api/products</code>
+        <div class="params">
+            <p><strong>Query Parameters:</strong></p>
+            <div class="param">
+                <strong>limit</strong> (optioneel) - Aantal resultaten (standaard: 10)<br>
+                <strong>offset</strong> (optioneel) - Startpositie (standaard: 0)
+            </div>
+        </div>
+        <div class="example">
+                <pre>{
+  "data": [
+    {
+      "id": 1,
+      "name": "Gouden ring",
+      "description": "18k gouden ring met diamant",
+      "price": 1299.99,
+      "stock": 5,
+      "category_id": 1
+    }
+  ],
+  "pagination": {
+    "limit": 10,
+    "offset": 0,
+    "total": 25,
+    "hasMore": true
+  }
+}</pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Producten zoeken</strong>
+        </div>
+        <code class="url">GET /api/products/search?q=ring</code>
+        <div class="params">
+            <p><strong>Query Parameters:</strong></p>
+            <div class="param">
+                <strong>q</strong> (verplicht) - Zoekterm voor naam of beschrijving
+            </div>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Specifiek product ophalen</strong>
+        </div>
+        <code class="url">GET /api/products/:id</code>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method post">POST</span>
+            <strong>Nieuw product toevoegen</strong>
+        </div>
+        <code class="url">POST /api/products</code>
+        <div class="params">
+            <p><strong>Request Body:</strong></p>
+            <div class="param">
+                <strong>name</strong> (verplicht) - Naam van het product<br>
+                <strong>description</strong> (optioneel) - Beschrijving<br>
+                <strong>price</strong> (verplicht) - Prijs (positief getal)<br>
+                <strong>stock</strong> (optioneel) - Voorraad (standaard: 0)<br>
+                <strong>category_id</strong> (optioneel) - Categorie ID
+            </div>
+        </div>
+        <div class="example">
+                <pre>{
+  "name": "Zilveren ketting",
+  "description": "925 sterling zilver",
+  "price": 89.99,
+  "stock": 15,
+  "category_id": 2
+}</pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method put">PUT</span>
+            <strong>Product updaten</strong>
+        </div>
+        <code class="url">PUT /api/products/:id</code>
+        <div class="params">
+            <p><strong>Request Body:</strong> Alle velden zijn optioneel</p>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method delete">DELETE</span>
+            <strong>Product verwijderen</strong>
+        </div>
+        <code class="url">DELETE /api/products/:id</code>
+    </div>
+</div>
+
+<div class="section">
+    <h2>📁 Categories Endpoints</h2>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Alle categorieën ophalen</strong>
+        </div>
+        <code class="url">GET /api/categories</code>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Specifieke categorie ophalen</strong>
+        </div>
+        <code class="url">GET /api/categories/:id</code>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Producten binnen een categorie</strong>
+        </div>
+        <code class="url">GET /api/categories/:id/products</code>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method post">POST</span>
+            <strong>Nieuwe categorie toevoegen</strong>
+        </div>
+        <code class="url">POST /api/categories</code>
+        <div class="params">
+            <p><strong>Request Body:</strong></p>
+            <div class="param">
+                <strong>name</strong> (verplicht) - Naam (geen cijfers toegestaan)<br>
+                <strong>description</strong> (optioneel) - Beschrijving
+            </div>
+        </div>
+        <div class="example">
+                <pre>{
+  "name": "Ringen",
+  "description": "Collectie van alle ringen"
+}</pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method put">PUT</span>
+            <strong>Categorie updaten</strong>
+        </div>
+        <code class="url">PUT /api/categories/:id</code>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method delete">DELETE</span>
+            <strong>Categorie verwijderen</strong>
+        </div>
+        <code class="url">DELETE /api/categories/:id</code>
+    </div>
+</div>
+
+<div class="section">
+    <h2>⚠️ Error Responses</h2>
+    <p>Alle errors retourneren een JSON object met een <code>error</code> veld:</p>
+    <div class="example">
+            <pre>{
+  "error": "Product niet gevonden"
+}</pre>
+    </div>
+    <p style="margin-top: 15px;"><strong>HTTP Status Codes:</strong></p>
+    <ul style="margin-left: 20px; margin-top: 10px;">
+        <li><code>200</code> - Success</li>
+        <li><code>201</code> - Created</li>
+        <li><code>400</code> - Bad Request (validatie error)</li>
+        <li><code>404</code> - Not Found</li>
+        <li><code>500</code> - Internal Server Error</li>
+    </ul>
+</div>
+</body>
+</html>
