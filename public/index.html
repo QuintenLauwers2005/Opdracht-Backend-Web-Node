@@ -15,7 +15,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
             color: #333;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
             background: #f5f5f5;
@@ -40,6 +40,25 @@
             opacity: 0.9;
         }
 
+        .features {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .features ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            font-weight: bold;
+        }
+
         .section {
             background: white;
             padding: 30px;
@@ -53,6 +72,12 @@
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px solid #e0e0e0;
+        }
+
+        h3 {
+            color: #764ba2;
+            margin-top: 25px;
+            margin-bottom: 15px;
         }
 
         .endpoint {
@@ -77,6 +102,18 @@
         .post { background: #49cc90; }
         .put { background: #fca130; }
         .delete { background: #f93e3e; }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .badge-new { background: #49cc90; color: white; }
+        .badge-advanced { background: #764ba2; color: white; }
 
         .url {
             font-family: 'Courier New', monospace;
@@ -105,6 +142,12 @@
             color: #667eea;
         }
 
+        .param-optional {
+            color: #999;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
         code {
             background: #f4f4f4;
             padding: 2px 6px;
@@ -127,19 +170,78 @@
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
         }
+
+        .info-box {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        table th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        table td {
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        table tr:hover {
+            background: #f5f5f5;
+        }
     </style>
 </head>
 <body>
 <header>
     <h1>💎 Juwelier API</h1>
-    <p class="subtitle">API Documentatie - Versie 1.0</p>
+    <p class="subtitle">Geavanceerde API Documentatie - Versie 2.0</p>
+    <div class="features">
+        <ul>
+            <li>Geavanceerde validatie</li>
+            <li>Multi-field zoeken</li>
+            <li>Flexibel sorteren</li>
+            <li>Uitgebreid filteren</li>
+            <li>Consistente responses</li>
+        </ul>
+    </div>
 </header>
 
 <div class="section">
-    <h2>Overzicht</h2>
-    <p>Welkom bij de Juwelier API documentatie. Deze API biedt endpoints voor het beheren van producten en categorieën voor een juwelier webshop.</p>
+    <h2>📋 Overzicht</h2>
+    <p>Welkom bij de Juwelier API documentatie. Deze API biedt geavanceerde endpoints voor het beheren van producten en categorieën voor een juwelier webshop.</p>
     <p><strong>Base URL:</strong> <code>http://localhost:3000/api</code></p>
     <p><strong>Response Format:</strong> JSON</p>
+
+    <div class="info-box">
+        <strong>🆕 Nieuwe features in v2.0:</strong>
+        <ul style="margin-left: 20px; margin-top: 10px;">
+            <li>Geavanceerde validatie met specifieke foutmeldingen</li>
+            <li>Zoeken op meerdere velden tegelijk (naam, beschrijving, prijs)</li>
+            <li>Sorteren op alle relevante velden (ASC/DESC)</li>
+            <li>Filtering op prijs, voorraad en categorie</li>
+            <li>Consistente response structuur met success vlag en metadata</li>
+            <li>Product count per categorie</li>
+        </ul>
+    </div>
 </div>
 
 <div class="section">
@@ -149,32 +251,94 @@
         <div>
             <span class="method get">GET</span>
             <strong>Alle producten ophalen</strong>
+            <span class="badge badge-advanced">ADVANCED</span>
         </div>
         <code class="url">GET /api/products</code>
+        <p>Ondersteunt paginatie, zoeken, sorteren en filtering</p>
         <div class="params">
             <p><strong>Query Parameters:</strong></p>
             <div class="param">
-                <strong>limit</strong> (optioneel) - Aantal resultaten (standaard: 10)<br>
-                <strong>offset</strong> (optioneel) - Startpositie (standaard: 0)
+                <strong>limit</strong> <span class="param-optional">(optioneel, default: 10)</span><br>
+                Aantal resultaten per pagina
+            </div>
+            <div class="param">
+                <strong>offset</strong> <span class="param-optional">(optioneel, default: 0)</span><br>
+                Startpositie voor paginatie
+            </div>
+            <div class="param">
+                <strong>sort</strong> <span class="param-optional">(optioneel, default: id)</span><br>
+                Sorteer veld: <code>id</code>, <code>name</code>, <code>price</code>, <code>stock</code>, <code>created_at</code>
+            </div>
+            <div class="param">
+                <strong>order</strong> <span class="param-optional">(optioneel, default: asc)</span><br>
+                Sorteervolgorde: <code>asc</code> of <code>desc</code>
+            </div>
+            <div class="param">
+                <strong>name</strong> <span class="param-optional">(optioneel)</span><br>
+                Zoek in productnaam
+            </div>
+            <div class="param">
+                <strong>description</strong> <span class="param-optional">(optioneel)</span><br>
+                Zoek in productbeschrijving
+            </div>
+            <div class="param">
+                <strong>min_price</strong> <span class="param-optional">(optioneel)</span><br>
+                Minimum prijs filter
+            </div>
+            <div class="param">
+                <strong>max_price</strong> <span class="param-optional">(optioneel)</span><br>
+                Maximum prijs filter
+            </div>
+            <div class="param">
+                <strong>in_stock</strong> <span class="param-optional">(optioneel)</span><br>
+                Filter op voorraad: <code>true</code> of <code>false</code>
+            </div>
+            <div class="param">
+                <strong>category_id</strong> <span class="param-optional">(optioneel)</span><br>
+                Filter op categorie ID
             </div>
         </div>
+        <p><strong>Voorbeelden:</strong></p>
+        <code class="url">GET /api/products?limit=5&offset=0&sort=price&order=desc</code>
+        <code class="url">GET /api/products?name=ring&min_price=100&max_price=500</code>
+        <code class="url">GET /api/products?in_stock=true&category_id=1&sort=name</code>
         <div class="example">
                 <pre>{
+  "success": true,
   "data": [
     {
       "id": 1,
-      "name": "Gouden ring",
-      "description": "18k gouden ring met diamant",
-      "price": 1299.99,
-      "stock": 5,
-      "category_id": 1
+      "name": "Gouden verlovingsring",
+      "description": "18k gouden ring met 0.5ct diamant",
+      "price": 2499.99,
+      "stock": 3,
+      "category_id": 1,
+      "created_at": "2024-01-01 10:00:00",
+      "updated_at": "2024-01-01 10:00:00"
     }
   ],
-  "pagination": {
-    "limit": 10,
-    "offset": 0,
-    "total": 25,
-    "hasMore": true
+  "meta": {
+    "pagination": {
+      "limit": 10,
+      "offset": 0,
+      "total": 15,
+      "count": 10,
+      "hasMore": true,
+      "page": 1,
+      "totalPages": 2
+    },
+    "filters": {
+      "searchName": null,
+      "searchDescription": null,
+      "minPrice": null,
+      "maxPrice": null,
+      "inStock": null,
+      "categoryId": null
+    },
+    "sorting": {
+      "sortBy": "id",
+      "order": "ASC"
+    }
   }
 }</pre>
         </div>
@@ -183,15 +347,40 @@
     <div class="endpoint">
         <div>
             <span class="method get">GET</span>
-            <strong>Producten zoeken</strong>
+            <strong>Geavanceerd zoeken</strong>
+            <span class="badge badge-new">NEW</span>
         </div>
-        <code class="url">GET /api/products/search?q=ring</code>
+        <code class="url">GET /api/products/search</code>
+        <p>Zoek op meerdere criteria tegelijk</p>
         <div class="params">
             <p><strong>Query Parameters:</strong></p>
             <div class="param">
-                <strong>q</strong> (verplicht) - Zoekterm voor naam of beschrijving
+                <strong>q</strong> <span class="param-optional">(optioneel)</span> - Zoekterm voor naam of beschrijving<br>
+                <strong>min_price</strong> <span class="param-optional">(optioneel)</span> - Minimum prijs<br>
+                <strong>max_price</strong> <span class="param-optional">(optioneel)</span> - Maximum prijs
             </div>
         </div>
+        <code class="url">GET /api/products/search?q=goud&min_price=500&max_price=2000</code>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Producten op voorraad</strong>
+            <span class="badge badge-new">NEW</span>
+        </div>
+        <code class="url">GET /api/products/in-stock</code>
+        <p>Haalt alleen producten op die op voorraad zijn (stock > 0)</p>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Uitverkochte producten</strong>
+            <span class="badge badge-new">NEW</span>
+        </div>
+        <code class="url">GET /api/products/out-of-stock</code>
+        <p>Haalt alleen producten op die uitverkocht zijn (stock = 0)</p>
     </div>
 
     <div class="endpoint">
@@ -200,31 +389,73 @@
             <strong>Specifiek product ophalen</strong>
         </div>
         <code class="url">GET /api/products/:id</code>
+        <div class="example">
+                <pre>{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "Gouden verlovingsring",
+    "description": "18k gouden ring met 0.5ct diamant",
+    "price": 2499.99,
+    "stock": 3,
+    "category_id": 1
+  }
+}</pre>
+        </div>
     </div>
 
     <div class="endpoint">
         <div>
             <span class="method post">POST</span>
             <strong>Nieuw product toevoegen</strong>
+            <span class="badge badge-advanced">ADVANCED VALIDATION</span>
         </div>
         <code class="url">POST /api/products</code>
         <div class="params">
             <p><strong>Request Body:</strong></p>
             <div class="param">
-                <strong>name</strong> (verplicht) - Naam van het product<br>
-                <strong>description</strong> (optioneel) - Beschrijving<br>
-                <strong>price</strong> (verplicht) - Prijs (positief getal)<br>
-                <strong>stock</strong> (optioneel) - Voorraad (standaard: 0)<br>
-                <strong>category_id</strong> (optioneel) - Categorie ID
+                <strong>name</strong> (verplicht)<br>
+                • Minimaal 3 karakters<br>
+                • Maximaal 200 karakters
+            </div>
+            <div class="param">
+                <strong>price</strong> (verplicht)<br>
+                • Moet een positief getal zijn<br>
+                • Maximum €1.000.000
+            </div>
+            <div class="param">
+                <strong>stock</strong> <span class="param-optional">(optioneel, default: 0)</span><br>
+                • Moet een positief geheel getal zijn
+            </div>
+            <div class="param">
+                <strong>description</strong> <span class="param-optional">(optioneel)</span><br>
+                Beschrijving van het product
+            </div>
+            <div class="param">
+                <strong>category_id</strong> <span class="param-optional">(optioneel)</span><br>
+                • Moet een bestaande categorie zijn
             </div>
         </div>
         <div class="example">
-                <pre>{
+                <pre>
+{
   "name": "Zilveren ketting",
   "description": "925 sterling zilver",
   "price": 89.99,
   "stock": 15,
   "category_id": 2
+}
+
+{
+  "success": true,
+  "message": "Product succesvol aangemaakt",
+  "data": {
+    "id": 16,
+    "name": "Zilveren ketting",
+    "price": 89.99,
+    "stock": 15,
+    "category_id": 2
+  }
 }</pre>
         </div>
     </div>
@@ -233,10 +464,30 @@
         <div>
             <span class="method put">PUT</span>
             <strong>Product updaten</strong>
+            <span class="badge badge-advanced">ADVANCED VALIDATION</span>
         </div>
         <code class="url">PUT /api/products/:id</code>
-        <div class="params">
-            <p><strong>Request Body:</strong> Alle velden zijn optioneel</p>
+        <p>Alle velden zijn optioneel - update alleen wat je meegeeft</p>
+        <div class="example">
+                <pre>
+{
+  "price": 99.99,
+  "stock": 20
+}
+
+{
+  "success": true,
+  "message": "Product succesvol geüpdatet",
+  "data": {
+    "id": 1,
+    "name": "Gouden verlovingsring",
+    "description": "18k gouden ring met 0.5ct diamant",
+    "price": 99.99,
+    "stock": 20,
+    "category_id": 1,
+    "updated_at": "2024-01-15 14:30:00"
+  }
+}</pre>
         </div>
     </div>
 
@@ -246,6 +497,20 @@
             <strong>Product verwijderen</strong>
         </div>
         <code class="url">DELETE /api/products/:id</code>
+        <div class="example">
+                <pre>{
+  "success": true,
+  "message": "Product succesvol verwijderd",
+  "data": {
+    "id": "5",
+    "deletedProduct": {
+      "id": 5,
+      "name": "Diamanten oorbellen",
+      "price": 1899.99
+    }
+  }
+}</pre>
+        </div>
     </div>
 </div>
 
@@ -256,8 +521,50 @@
         <div>
             <span class="method get">GET</span>
             <strong>Alle categorieën ophalen</strong>
+            <span class="badge badge-advanced">ADVANCED</span>
         </div>
         <code class="url">GET /api/categories</code>
+        <div class="params">
+            <p><strong>Query Parameters:</strong></p>
+            <div class="param">
+                <strong>sort</strong> <span class="param-optional">(optioneel, default: name)</span> - <code>id</code>, <code>name</code>, <code>created_at</code><br>
+                <strong>order</strong> <span class="param-optional">(optioneel, default: asc)</span> - <code>asc</code> of <code>desc</code><br>
+                <strong>name</strong> <span class="param-optional">(optioneel)</span> - Zoek op naam
+            </div>
+        </div>
+        <code class="url">GET /api/categories?sort=name&order=asc</code>
+    </div>
+
+    <div class="endpoint">
+        <div>
+            <span class="method get">GET</span>
+            <strong>Categorieën met product aantallen</strong>
+            <span class="badge badge-new">NEW</span>
+        </div>
+        <code class="url">GET /api/categories/with-counts</code>
+        <p>Haalt categorieën op met het aantal producten per categorie</p>
+        <div class="example">
+                <pre>{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "name": "Ringen",
+      "description": "Collectie van gouden en zilveren ringen",
+      "product_count": 3
+    },
+    {
+      "id": 2,
+      "name": "Kettingen",
+      "product_count": 5
+    }
+  ],
+  "meta": {
+    "count": 5,
+    "description": "Categorieën met aantal producten per categorie"
+  }
+}</pre>
+        </div>
     </div>
 
     <div class="endpoint">
@@ -266,34 +573,50 @@
             <strong>Specifieke categorie ophalen</strong>
         </div>
         <code class="url">GET /api/categories/:id</code>
+        <p>Inclusief product count voor deze categorie</p>
     </div>
 
     <div class="endpoint">
         <div>
             <span class="method get">GET</span>
             <strong>Producten binnen een categorie</strong>
+            <span class="badge badge-advanced">ADVANCED</span>
         </div>
         <code class="url">GET /api/categories/:id/products</code>
+        <div class="params">
+            <p><strong>Query Parameters:</strong></p>
+            <div class="param">
+                <strong>sort</strong> <span class="param-optional">(optioneel)</span> - <code>name</code>, <code>price</code>, <code>stock</code><br>
+                <strong>order</strong> <span class="param-optional">(optioneel)</span> - <code>asc</code> of <code>desc</code><br>
+                <strong>in_stock</strong> <span class="param-optional">(optioneel)</span> - <code>true</code> of <code>false</code><br>
+                <strong>min_price</strong> <span class="param-optional">(optioneel)</span> - Minimum prijs<br>
+                <strong>max_price</strong> <span class="param-optional">(optioneel)</span> - Maximum prijs
+            </div>
+        </div>
+        <code class="url">GET /api/categories/1/products?sort=price&order=desc&in_stock=true</code>
     </div>
 
     <div class="endpoint">
         <div>
             <span class="method post">POST</span>
             <strong>Nieuwe categorie toevoegen</strong>
+            <span class="badge badge-advanced">ADVANCED VALIDATION</span>
         </div>
         <code class="url">POST /api/categories</code>
         <div class="params">
-            <p><strong>Request Body:</strong></p>
+            <p><strong>Validatieregels:</strong></p>
             <div class="param">
-                <strong>name</strong> (verplicht) - Naam (geen cijfers toegestaan)<br>
-                <strong>description</strong> (optioneel) - Beschrijving
+                <strong>name</strong> (verplicht)<br>
+                • Minimaal 2 karakters<br>
+                • Maximaal 100 karakters<br>
+                • Geen cijfers toegestaan<br>
+                • Alleen letters en spaties<br>
+                • Moet uniek zijn
             </div>
-        </div>
-        <div class="example">
-                <pre>{
-  "name": "Ringen",
-  "description": "Collectie van alle ringen"
-}</pre>
+            <div class="param">
+                <strong>description</strong> <span class="param-optional">(optioneel)</span><br>
+                • Maximaal 500 karakters
+            </div>
         </div>
     </div>
 
@@ -311,25 +634,99 @@
             <strong>Categorie verwijderen</strong>
         </div>
         <code class="url">DELETE /api/categories/:id</code>
+        <div class="warning-box">
+            <strong>⚠️ Let op:</strong> Als je een categorie verwijdert, worden producten in deze categorie niet verwijderd maar krijgen ze <code>category_id = null</code>
+        </div>
     </div>
 </div>
 
 <div class="section">
     <h2>⚠️ Error Responses</h2>
-    <p>Alle errors retourneren een JSON object met een <code>error</code> veld:</p>
+    <p>Alle errors volgen een consistente structuur:</p>
     <div class="example">
             <pre>{
-  "error": "Product niet gevonden"
+  "success": false,
+  "error": "Validatie error",
+  "field": "price",
+  "message": "Prijs moet een positief getal zijn"
 }</pre>
     </div>
-    <p style="margin-top: 15px;"><strong>HTTP Status Codes:</strong></p>
-    <ul style="margin-left: 20px; margin-top: 10px;">
-        <li><code>200</code> - Success</li>
-        <li><code>201</code> - Created</li>
-        <li><code>400</code> - Bad Request (validatie error)</li>
-        <li><code>404</code> - Not Found</li>
-        <li><code>500</code> - Internal Server Error</li>
-    </ul>
+
+    <h3>HTTP Status Codes</h3>
+    <table>
+        <tr>
+            <th>Code</th>
+            <th>Betekenis</th>
+            <th>Gebruik</th>
+        </tr>
+        <tr>
+            <td><code>200</code></td>
+            <td>OK</td>
+            <td>Succesvolle GET, PUT, DELETE</td>
+        </tr>
+        <tr>
+            <td><code>201</code></td>
+            <td>Created</td>
+            <td>Succesvolle POST (nieuw item aangemaakt)</td>
+        </tr>
+        <tr>
+            <td><code>400</code></td>
+            <td>Bad Request</td>
+            <td>Validatie error, ontbrekende velden</td>
+        </tr>
+        <tr>
+            <td><code>404</code></td>
+            <td>Not Found</td>
+            <td>Resource niet gevonden</td>
+        </tr>
+        <tr>
+            <td><code>500</code></td>
+            <td>Internal Server Error</td>
+            <td>Server error, database error</td>
+        </tr>
+    </table>
+
+    <h3>Validatie Errors</h3>
+    <p>Alle validatie errors geven specifieke feedback:</p>
+    <div class="example">
+            <pre>
+{
+  "success": false,
+  "error": "Validatie error",
+  "field": "name",
+  "message": "Naam moet minstens 3 karakters bevatten"
+}
+
+{
+  "success": false,
+  "error": "Validatie error",
+  "field": "price",
+  "message": "Prijs mag niet hoger zijn dan €1.000.000"
+}
+
+{
+  "success": false,
+  "error": "Validatie error",
+  "field": "name",
+  "message": "Een categorie met deze naam bestaat al"
+}</pre>
+    </div>
+</div>
+
+<div class="section">
+    <h2>💡 Gebruik voorbeelden</h2>
+
+    <h3>Scenario 1: Zoek alle ringen onder €500</h3>
+    <code class="url">GET /api/products?name=ring&max_price=500&sort=price&order=asc</code>
+
+    <h3>Scenario 2: Producten op voorraad in categorie "Kettingen"</h3>
+    <code class="url">GET /api/categories/2/products?in_stock=true&sort=price</code>
+
+    <h3>Scenario 3: Duurste producten eerst</h3>
+    <code class="url">GET /api/products?sort=price&order=desc&limit=10</code>
+
+    <h3>Scenario 4: Zoek gouden producten tussen €1000 en €3000</h3>
+    <code class="url">GET /api/products/search?q=goud&min_price=1000&max_price=3000</code>
 </div>
 </body>
 </html>
