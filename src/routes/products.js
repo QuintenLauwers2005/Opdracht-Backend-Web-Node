@@ -11,7 +11,7 @@ const validatePrice = (price) => {
 };
 
 const validateStock = (stock) => {
-    if (stock === undefined || stock === null) return { valid: true }; // Stock is optioneel
+    if (stock === undefined || stock === null) return { valid: true };
     if (isNaN(stock)) return { valid: false, message: 'Voorraad moet een nummer zijn' };
     if (stock < 0) return { valid: false, message: 'Voorraad kan niet negatief zijn' };
     if (!Number.isInteger(Number(stock))) return { valid: false, message: 'Voorraad moet een geheel getal zijn' };
@@ -29,18 +29,16 @@ router.get('/', async (req, res) => {
     try {
         const limit = parseInt(req.query.limit) || 10;
         const offset = parseInt(req.query.offset) || 0;
-        const sortBy = req.query.sort || 'id'; // id, name, price, stock
+        const sortBy = req.query.sort || 'id';
         const order = req.query.order === 'desc' ? 'DESC' : 'ASC';
 
         const searchName = req.query.name || '';
         const searchDescription = req.query.description || '';
 
-
         const minPrice = req.query.min_price ? parseFloat(req.query.min_price) : null;
         const maxPrice = req.query.max_price ? parseFloat(req.query.max_price) : null;
-        const inStock = req.query.in_stock; // true/false
+        const inStock = req.query.in_stock;
         const categoryId = req.query.category_id ? parseInt(req.query.category_id) : null;
-
 
         const allowedSortFields = ['id', 'name', 'price', 'stock', 'created_at'];
         const sortField = allowedSortFields.includes(sortBy) ? sortBy : 'id';
