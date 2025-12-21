@@ -23,7 +23,7 @@ const validateName = (name) => {
 
 router.get('/', async (req, res) => {
     try {
-        const sortBy = req.query.sort || 'name'; // name, id
+        const sortBy = req.query.sort || 'name';
         const order = req.query.order === 'desc' ? 'DESC' : 'ASC';
         const searchName = req.query.name || '';
 
@@ -205,7 +205,6 @@ router.post('/', async (req, res) => {
     try {
         const { name, description } = req.body;
 
-        // Validatie naam
         const nameValidation = validateName(name);
         if (!nameValidation.valid) {
             return res.status(400).json({
@@ -266,7 +265,6 @@ router.put('/:id', async (req, res) => {
     try {
         const { name, description } = req.body;
 
-        // Check of categorie bestaat
         const [existing] = await db.query('SELECT * FROM categories WHERE id = ?', [req.params.id]);
         if (existing.length === 0) {
             return res.status(404).json({
