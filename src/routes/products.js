@@ -446,7 +446,7 @@ router.delete('/:id', async (req, res) => {
             });
         }
 
-        const [result] = await db.run(
+        await db.run(
             'DELETE FROM products WHERE id = ?',
             [req.params.id]
         );

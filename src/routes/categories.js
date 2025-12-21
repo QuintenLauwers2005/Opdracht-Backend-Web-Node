@@ -372,7 +372,7 @@ router.delete('/:id', async (req, res) => {
 
         const hasProducts = productCount[0].count > 0;
 
-        const [result] = await db.run(
+       await db.run(
             'DELETE FROM categories WHERE id = ?',
             [req.params.id]
         );
