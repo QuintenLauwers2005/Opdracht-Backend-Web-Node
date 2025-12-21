@@ -10,40 +10,93 @@ Een RESTful API voor het beheren van producten en categorieën voor een juwelier
 
 ## 🚀 Installatie
 
-### 1. Clone de repository
+### Vereisten
+Zorg dat je deze software hebt geïnstalleerd:
+- **Node.js** (versie 20 of hoger) - [Download hier](https://nodejs.org/)
+- **Git** - [Download hier](https://git-scm.com/)
+
+### Stap 1: Clone de repository
 ```bash
 git clone <jouw-github-url>
-cd <project-map>
+cd <project-map-naam>
 ```
 
-### 2. Installeer dependencies
+### Stap 2: Installeer dependencies
 ```bash
 npm install
 ```
 
-### 3. Database opzetten
+Dit installeert automatisch:
+- express
+- sqlite3
+- dotenv
+- cors
+- nodemon (development)
 
-**Optie A: Via phpMyAdmin of MySQL Workbench**
-- Open het bestand `database.sql`
-- Voer de SQL queries uit in je database tool
+### Stap 3: Database opzetten
 
-**Optie B: Via command line**
+**BELANGRIJK:** Dit project gebruikt **SQLite**, dus je hoeft GEEN MySQL/phpMyAdmin te installeren!
+
+De database wordt automatisch aangemaakt. Je hebt twee opties:
+
+#### Optie A: Automatisch (als je PhpStorm gebruikt)
+1. Open PhpStorm
+2. Database tool window (rechts)
+3. Add Data Source → SQLite
+4. Selecteer `juwelier.db` in je project root
+5. New Query Console
+6. Kopieer en voer `database.sql` uit
+
+#### Optie B: Handmatig (command line)
 ```bash
-mysql -u root -p < database.sql
+# Installeer sqlite3 CLI tool (indien nodig)
+# Windows: download van https://www.sqlite.org/download.html
+# Mac: komt standaard mee
+# Linux: sudo apt-get install sqlite3
+
+# Maak database en vul met data
+sqlite3 juwelier.db < database.sql
 ```
 
-### 4. Configureer environment variabelen
+#### Optie C: Via Node.js script (makkelijkst!)
+Maak een bestand `setup-db.js` aan:
+```javascript
+const sqlite3 = require('sqlite3').verbose();
+const fs = require('fs');
 
-Kopieer het `.env` bestand en pas de database credentials aan:
+const db = new sqlite3.Database('juwelier.db');
+const sql = fs.readFileSync('database.sql', 'utf8');
+
+db.exec(sql, (err) => {
+  if (err) {
+    console.error('❌ Error:', err);
+  } else {
+    console.log('✅ Database succesvol aangemaakt!');
+  }
+  db.close();
+});
+```
+
+Voer uit:
+```bash
+node setup-db.js
+```
+
+### Stap 4: Environment variabelen (optioneel)
+
+Het `.env` bestand bestaat al en hoeft niet aangepast te worden voor SQLite!
+Standaard configuratie:
 ```env
 PORT=3000
-DB_HOST=localhost
-DB_USER=jouw_gebruikersnaam
-DB_PASSWORD=jouw_wachtwoord
-DB_NAME=juwelier_db
 ```
 
-### 5. Start de server
+Als je de port wilt wijzigen:
+```bash
+# Kopieer .env.example naar .env (indien beschikbaar)
+# Of wijzig PORT in het bestaande .env bestand
+```
+
+### Stap 5: Start de server
 
 **Development mode (met automatisch herstarten):**
 ```bash
@@ -55,7 +108,21 @@ npm run dev
 npm start
 ```
 
-De API draait nu op: `http://localhost:3000`
+### Stap 6: Controleer of het werkt
+
+Je zou dit moeten zien in de terminal:
+```
+✅ Database verbinding succesvol (SQLite)
+🚀 Server draait op http://localhost:3000
+📚 API documentatie: http://localhost:3000
+```
+
+Open je browser en ga naar:
+- **http://localhost:3000** - Zie de API documentatie
+- **http://localhost:3000/api/products** - Test of producten worden opgehaald
+- **http://localhost:3000/api/categories** - Test categorieën
+
+Als je 15 producten en 5 categorieën ziet → **Alles werkt!** ✅
 
 ## 📚 API Documentatie
 
@@ -105,42 +172,42 @@ Bezoek `http://localhost:3000` voor de volledige API documentatie.
 
 ### Extra Features Geïmplementeerd
 - [x] **Geavanceerde validatie**
-    - Minimale/maximale lengtes voor velden
-    - Custom error messages per validatiefout
-    - Prijs range validatie (max €1.000.000)
-    - Geheel getal validatie voor voorraad
-    - Unieke naam check voor categorieën
-    - Foreign key validatie (category_id moet bestaan)
-    - Alleen letters in categorie namen
+  - Minimale/maximale lengtes voor velden
+  - Custom error messages per validatiefout
+  - Prijs range validatie (max €1.000.000)
+  - Geheel getal validatie voor voorraad
+  - Unieke naam check voor categorieën
+  - Foreign key validatie (category_id moet bestaan)
+  - Alleen letters in categorie namen
 
 - [x] **Zoeken op meerdere velden**
-    - Zoek op naam EN beschrijving tegelijk
-    - Combineer zoeken met prijs filtering
-    - Filter op voorraad status
-    - Filter op categorie
+  - Zoek op naam EN beschrijving tegelijk
+  - Combineer zoeken met prijs filtering
+  - Filter op voorraad status
+  - Filter op categorie
 
 - [x] **Sorteren van resultaten**
-    - Sort by: id, name, price, stock, created_at
-    - Ascending of descending order
-    - Werkt op alle lijst endpoints
+  - Sort by: id, name, price, stock, created_at
+  - Ascending of descending order
+  - Werkt op alle lijst endpoints
 
 - [x] **Uitgebreid filteren**
-    - Min/max prijs ranges
-    - In stock / out of stock filtering
-    - Filter per categorie
-    - Combineerbare filters
+  - Min/max prijs ranges
+  - In stock / out of stock filtering
+  - Filter per categorie
+  - Combineerbare filters
 
 - [x] **Betere response structuur**
-    - Consistente `success` vlag in alle responses
-    - Uitgebreide `meta` data (pagination info, filters, sorting)
-    - Specifieke error messages met field indicator
-    - Complete pagination info (page, totalPages, hasMore)
+  - Consistente `success` vlag in alle responses
+  - Uitgebreide `meta` data (pagination info, filters, sorting)
+  - Specifieke error messages met field indicator
+  - Complete pagination info (page, totalPages, hasMore)
 
 - [x] **Extra endpoints**
-    - `/api/products/in-stock` - Alleen voorraad producten
-    - `/api/products/out-of-stock` - Uitverkochte producten
-    - `/api/categories/with-counts` - Categorieën met product count
-    - Categorie-specifieke product listings met filters
+  - `/api/products/in-stock` - Alleen voorraad producten
+  - `/api/products/out-of-stock` - Uitverkochte producten
+  - `/api/categories/with-counts` - Categorieën met product count
+  - Categorie-specifieke product listings met filters
 
 ## 🧪 API Testen
 
