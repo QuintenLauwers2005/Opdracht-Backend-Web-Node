@@ -309,9 +309,14 @@ project/
 
 ## 📝 Bronvermeldingen
 
-- Express documentatie: https://expressjs.com/
-- MySQL2 package: https://www.npmjs.com/package/mysql2
+- AI gebruik Claude Sonnet 4.5: https://claude.ai/share/65f0718e-83a1-4394-b69c-395a8c821ecd
+- Youtube video korte uitleg node.js: https://youtu.be/ENrzD9HAZK4?si=K49ymez6w08kWxQT
+- Youtube video bredere uitleg Node: https://youtu.be/TlB_eWDSMt4?si=cykzpoalZ6jA5WVF
 - Node.js best practices: https://github.com/goldbergyoni/nodebestpractices
+- Express documentatie: https://expressjs.com/
+- korte uitleg express JS w3schools: https://www.w3schools.com/nodejs/nodejs_express.asp
+- MySQL2 package: https://www.npmjs.com/package/mysql2
+- Uitleg sqlite: https://sqlite.org/howitworks.html
 
 ## 🎯 Toekomstige Uitbreidingen
 
