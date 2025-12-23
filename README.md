@@ -187,14 +187,14 @@ GET /api/products?limit=5&offset=5
 
 ## ✅ Functionele Requirements
 
-### Minimum Requirements (vereist voor voldoende)
+### Minimum Requirements
 - [x] **Twee CRUD interfaces** - Products & Categories met volledige CRUD
 - [x] **Basisvalidatie** - Lege velden, numerieke controles, data types
 - [x] **Limit en offset** - `GET /api/products?limit=10&offset=0` voor paginatie
 - [x] **Zoeken op veld** - `GET /api/products/search?q=ring`
 - [x] **API documentatie** - Uitgebreide HTML documentatie op root URL
 
-### Extra Features Geïmplementeerd (voor hoger cijfer)
+### Extra Features Geïmplementeerd
 
 #### 🔒 Geavanceerde Validatie
 - Minimale/maximale lengtes voor alle tekstvelden
