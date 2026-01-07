@@ -441,6 +441,12 @@ Opdracht-Backend-Web-Node/
 - **Claude Sonnet 4.5** (Anthropic) - Voor code structuur, validatie logica en debugging
   - Chat link: https://claude.ai/share/65f0718e-83a1-4394-b69c-395a8c821ecd
   
+  - Ik heb redelijk wat AI gebruikt dus er staat uitleg bij:
+  - src/config/database
+  - src/routes/categories
+  - src/routes/products
+  - ik heb het html bestand niet uitgelegd omdat het vaak herhaling valt en niet de kern is van dit vak
+  
 ### Documentatie & Tutorials
 - **Node.js Official Docs:** https://nodejs.org/docs/
 - **Express.js Documentatie:** https://expressjs.com/
