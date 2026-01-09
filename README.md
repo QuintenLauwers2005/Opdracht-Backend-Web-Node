@@ -32,6 +32,9 @@ Voor een productie-omgeving met veel gelijktijdige gebruikers zou MySQL/PostgreS
 ### Stap 1: Clone de repository
 ```bash
 git clone https://github.com/QuintenLauwers2005/Opdracht-Backend-Web-Node.git
+```
+Indien u zich nog niet in onderstaande map bevind moet u deze command ingeven in de terminal
+```bash
 cd Opdracht-Backend-Web-Node
 ```
 
